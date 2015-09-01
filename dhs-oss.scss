@@ -1,0 +1,166 @@
+$bubble-vis-font-family: 'Roboto', sans-serif !default;
+$bubble-vis-font-bold: 'Roboto Bold', sans-serif !default;
+$bubble-vis-font-size: 14px !default;
+
+$bubble-vis-btn-selected-color: #5480D6 !default;
+$bubble-vis-btn-selected-color-hovered: #3366CC !default;
+$bubble-vis-btn-color-hovered: #7D9FE3 !default;
+$bubble-vis-input-border-color: #ddd !default;
+$bubble-vis-input-border-color-focused: #014301 !default;
+
+.vis-container {
+    font-size: $bubble-vis-font-size;
+    font-family: $bubble-vis-font-family;
+
+    .rotate90 {
+        transform: rotate(90deg);
+    }
+
+    .timeline {
+        opacity: 0;
+
+        .x-axis {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+            font-family: sans-serif;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+    }
+
+    .clear-filters-text {
+        opacity: 0.87;
+    }
+
+    .node {
+        cursor: pointer;
+    }
+
+    .vertical-align {
+        vertical-align: middle;
+    }
+
+    .logo {
+      vertical-align: middle;
+      margin: 10px;
+    }
+
+    .btn-group {
+        box-shadow: 0 1px 6px 0 rgba(0,0,0,.12),0 1px 6px 0 rgba(0,0,0,.12);
+    }
+
+    .btn {
+        border-radius: 0px;
+        border: none;
+        background-color: #fff;
+        outline: none;
+
+        &:hover {
+            background-color: $bubble-vis-btn-color-hovered;
+        }
+    }
+
+    .btn-primary {
+        background-color: $bubble-vis-btn-selected-color;
+
+        &:active {
+            background-color: $bubble-vis-btn-selected-color;
+        }
+
+        &:hover {
+            background-color: $bubble-vis-btn-selected-color-hovered;
+        }
+    }
+
+    .input-keyword {
+        margin-top: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        border-bottom: solid 1px $bubble-vis-input-border-color;
+        font-family: $bubble-vis-font-family;
+        font-size: $bubble-vis-font-size;
+
+        &:focus {
+            outline: none;
+            border-bottom: solid 1px $bubble-vis-input-border-color-focused;
+        }
+    }
+
+    .dropdown-menu {
+        font-family: $bubble-vis-font-family;
+        font-size: $bubble-vis-font-size;
+    }
+
+    .region-background {
+        stroke: lighten(#000, 93.5%);
+        fill: white;
+    }
+
+    .info-container {
+        .info-panel {
+            border-radius: 0px;
+            opacity: 0.87;
+
+            .info-body {
+                font-size: 9pt;
+
+                .project-name-label {
+                    font-family: $bubble-vis-font-bold;
+                }
+
+                .organization-label {
+                    font-family: $bubble-vis-font-bold;
+                }
+
+                .code-label {
+                    font-family: $bubble-vis-font-bold;
+                }
+
+                .released-label {
+                    font-family: $bubble-vis-font-bold;
+                }
+
+                .update-label {
+                    font-family: $bubble-vis-font-bold;
+                }
+
+                .language-license-container {
+                    padding-top: 20px;
+
+                    .icon-sizer {
+                        font-size: 22pt;
+                    }
+
+                    .license-label {
+                        font-family: $bubble-vis-font-bold;
+                    }
+
+
+                    .language-label {
+                        font-family: $bubble-vis-font-bold;
+                    }
+                }
+
+                .os-container {
+                    padding-top: 20px;
+
+                    .icon-sizer {
+                        font-size: 22pt;
+                    }
+
+                    .os-label {
+                        font-family: $bubble-vis-font-bold;
+                    }
+                }
+
+            }
+        }
+    }
+
+    .nopadding {
+        padding: 0px;
+        margin-top: 10px;
+    }
+}

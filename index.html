@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>DHS-OSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../dhs-oss.css">
+  <link rel="stylesheet" type="text/css" href="../font.css">
+  <link rel="stylesheet" type="text/css" href="../icons.css">
+  <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css">
+
+  <style>
+    .vis-panel {
+      height: 600px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container vis-container">
+
+    <div class="row">
+      <div class="col-xs-12">
+        <h3>
+          <img src="http://upload.wikimedia.org/wikipedia/commons/8/8a/Seal_of_the_United_States_Department_of_Homeland_Security.svg"
+               width="64"
+               class="logo"/>
+           Open Security Catalog - DHS S&T CSD
+        </h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="col-xs-3 vertical-align">
+          <div class="btn-panel">
+            <div class="btn-group">
+              <button class="btn btn-default btn-domain"
+                      type="button">
+                <span>
+                  <i class="glyphicon glyphicon-th"></i>
+                  Domain
+                </span>
+              </button>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-default btn-timeline"
+                      type="button">
+                <span>
+                  <i class="glyphicon glyphicon-signal rotate90"></i>
+                  Timeline
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-4 vertical-align">
+          <div class="filter-panel">
+            <div class="btn-group">
+              <select class="os-select" multiple="multiple">
+                <option value="linux">Linux</option>
+                <option value="mac">MAC OS</option>
+                <option value="windows">Windows</option>
+                <option value="android">Android</option>
+              </select>
+            </div>
+
+            <div class="btn-group">
+              <select class="license-select" multiple="multiple">
+                <option value="apache">Apache</option>
+                <option value="bsd">BSD</option>
+                <option value="gpl">GPL</option>
+                <option value="mozilla">Mozilla</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-3 vertical-align">
+          <input type="text"
+                 class="input-keyword"
+                 data-provide="typeahead"
+                 placeholder="Search"
+                 autocomplete="off" />
+        </div>
+
+        <div class="col-xs-2 vertical-align">
+          <button type="button"
+                  class="btn btn-default btn-clear-filter">
+            <small class="clear-filters-text">
+              <i class="glyphicon glyphicon-remove"></i>
+              Clear Filters
+            </small>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="row">
+      <div class="col-md-7">
+        <div class="vis-panel">
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="row">
+          <button type="button"
+                  class="btn btn-default btn-csv-download">
+            <small class="clear-filters-text">
+              <i class="glyphicon glyphicon-download"></i>
+              Download Data
+            </small>
+          </button>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <div class="info-container">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+
+
+
+
+  <script src="../bower_components/d3/d3.js"></script>
+  <script src="../bower_components/lodash/lodash.js"></script>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../bower_components/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+  <script src="../bower_components/bootstrap3-typeahead/bootstrap3-typeahead.js"></script>
+  <script src="../chart.js"></script>
+  <script src="../info-panel.js"></script>
+  <script src="../dhs-oss.js"></script>
+  <script src="../config.js"></script>
+
+<script>
+
+var filters = {
+      license: [],
+      os: [],
+      all: '',
+      others: [
+        'w3c',
+        'colorado state university',
+        'usc',
+        'jhu/apl',
+        'geni', 'uiuc',
+        'mit',
+        'mozilla 2.0'
+      ]
+  };
+
+// CSV download
+$('.btn-csv-download').on('click', function() {
+    return window.open("data.csv", "_blank");
+});
+
+var api = VizGenerator()
+  .chartSelector('.vis-panel')
+  .infoSelector('.info-container')
+  .filters(filters)
+  .config(pkgconfig());
+
+d3.csv('data.csv', function(error, rows) {
+
+  function isInternetExplorer() {
+    var agent = navigator.userAgent;
+
+    return agent.indexOf('Trident') > -1;
+  }
+
+  var columns = api.config().columns,
+      tests = _.reduce(columns, function(tests, col) {
+          if(col.test) {
+            tests.push(col.test);
+          }
+          return tests;
+        }, []),
+      nodes = _.chain(rows)
+        .map(function(row) {
+          return _.reduce(columns, function(node, col, colName) {
+            node[colName] = row[col.src];
+            if(col.load) {
+              node[colName] = col.load(node[colName]);
+            }
+            return node;
+          }, {radius: 15});
+        })
+        .filter(function(node) {
+          return _.every(tests, function(test) { return test(node); });
+        })
+        .value();
+
+
+  console.log(nodes);
+
+  d3.select('.vis-container')
+     .datum(nodes)
+     .call(api);
+});
+
+</script>
+</body>
+</html>
