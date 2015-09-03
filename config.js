@@ -114,6 +114,10 @@
                         src: "bsd",
                         label: "BSD"
                     },
+                    csu: {
+                        src: "csu",
+                        label: "Colorado State University"
+                    },
                     geni: {
                         src: "geni",
                         label: "GENI"

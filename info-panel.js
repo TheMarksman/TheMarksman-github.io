@@ -190,14 +190,11 @@ var InfoPanel = function() {
             }
 
             function updateFirstReleased(datum) {
-                releasedLocation.text(
-                    datum.startDate.toLocaleDateString() + "*");
+                releasedLocation.text(datum.startDate.toLocaleDateString());
             }
 
             function updateLastUpdate(datum) {
-                updateLocation.text(
-                    datum.lastUpdate.toLocaleDateString()+ "*"
-                );
+                updateLocation.text(datum.lastUpdate.toLocaleDateString());
             }
 
             function updateLanguageLicense(datum) {

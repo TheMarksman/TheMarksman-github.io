@@ -27,6 +27,11 @@ $bubble-vis-input-border-color-focused: #014301 !default;
             font-size: 10px;
             opacity: 0.7;
         }
+
+        // TODO: Remove once all dates have been verified
+        .warning-text {
+            font-size: 10px;
+        }
     }
 
     .clear-filters-text {

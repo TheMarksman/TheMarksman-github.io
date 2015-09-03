@@ -205,9 +205,6 @@ d3.csv('data.csv', function(error, rows) {
         })
         .value();
 
-
-  console.log(nodes);
-
   d3.select('.vis-container')
      .datum(nodes)
      .call(api);

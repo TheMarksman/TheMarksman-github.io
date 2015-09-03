@@ -188,6 +188,15 @@ var Chart = function() {
                         });
                 });
 
+            //TODO: Take out once dates have all been verified
+            barContainer.append("g")
+                .classed({"warning-text": 1})
+                .attr("transform", "translate(" +
+                    [0, chartHeight + margin.top + margin.bottom] +
+                ")")
+                .append("text")
+                .text("* Note: All dates need to be verified");
+
             // Force layout components
             var regionBg = svg.append("g")
                 .attr("transform", "translate(" + [center.x, center.y] + ")")
